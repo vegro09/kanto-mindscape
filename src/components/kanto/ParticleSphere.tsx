@@ -15,9 +15,9 @@ function useSpherePoints() {
       const r = Math.sqrt(Math.max(0, 1 - y * y));
       const theta = golden * i;
       pts.push({
-        x: Math.cos(theta) * r * RADIUS,
-        y: y * RADIUS,
-        z: Math.sin(theta) * r * RADIUS,
+        x: Number((Math.cos(theta) * r * RADIUS).toFixed(2)),
+        y: Number((y * RADIUS).toFixed(2)),
+        z: Number((Math.sin(theta) * r * RADIUS).toFixed(2)),
       });
     }
     return pts;
