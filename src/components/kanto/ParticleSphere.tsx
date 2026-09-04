@@ -82,14 +82,12 @@ export function ParticleSphere({ state }: { state: BrainState }) {
             return (
               <motion.span
                 key={i}
-                className="absolute left-1/2 top-1/2 rounded-full bg-kanto-black"
+                className="absolute left-1/2 top-1/2 -ml-[2px] -mt-[2px] h-1 w-1 rounded-full bg-kanto-black"
                 style={{
-                  width: state === "listening" ? 3.5 : 3,
-                  height: state === "listening" ? 3.5 : 3,
-                  marginLeft: -1.5,
-                  marginTop: -1.5,
-                  opacity: 0.18 + depth * 0.72,
-                  transform: `translate3d(${p.x}px, ${p.y}px, ${p.z}px)`,
+                  x: p.x,
+                  y: p.y,
+                  z: p.z,
+                  opacity: Number((0.18 + depth * 0.72).toFixed(3)),
                 }}
                 animate={
                   state === "listening"
