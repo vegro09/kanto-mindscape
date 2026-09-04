@@ -51,7 +51,7 @@ function Index() {
           <button
             type="button"
             onClick={() => setAssetOpen(true)}
-            className="rounded-[8px] border border-kanto-line bg-kanto-white/60 px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:bg-kanto-white hover:text-kanto-black"
+            className="whitespace-nowrap rounded-[8px] border border-kanto-line bg-kanto-white/60 px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:bg-kanto-white hover:text-kanto-black"
           >
             Test Asset Render
           </button>
