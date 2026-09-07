@@ -21,6 +21,7 @@
 @theme inline {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
   --color-kanto-cream: var(--kanto-cream);
   --color-kanto-white: var(--kanto-white);
   --color-kanto-grey: var(--kanto-grey);
@@ -69,7 +70,7 @@
 }
 
 :root {
-  --radius: 8px;
+  --radius: 4px;
   --kanto-cream: oklch(0.966 0.032 105.5);
   --kanto-white: oklch(1 0 0);
   --kanto-grey: oklch(0.947 0.006 106);
