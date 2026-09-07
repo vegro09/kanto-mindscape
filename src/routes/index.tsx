@@ -1,24 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { motion } from "motion/react";
 import { ParticleSphere, type BrainState } from "@/components/kanto/ParticleSphere";
-import { PushToTalkButton } from "@/components/kanto/PushToTalkButton";
-import { AssetCanvas } from "@/components/kanto/AssetCanvas";
+import { KantoHeader, type PanelId } from "@/components/kanto/KantoHeader";
+import { VoiceControls } from "@/components/kanto/VoiceControls";
+import { ApiControlPanel } from "@/components/kanto/ApiControlPanel";
+import { DataIngestionDropzone } from "@/components/kanto/DataIngestionDropzone";
+import { NeuralMemoryDashboard } from "@/components/kanto/NeuralMemoryDashboard";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Kanto Brain OS — Voice-First AI Interface" },
+      { title: "Kanto Brain OS — Voice-First AI Console" },
       {
         name: "description",
         content:
-          "Kanto Brain OS is a zero-distraction, voice-first AI workspace: hold to speak and generated assets appear only when you need them.",
+          "Kanto Brain OS: a flat, zero-distraction voice console with a particle brain, memory map, data port, and API vault.",
       },
-      { property: "og:title", content: "Kanto Brain OS — Voice-First AI Interface" },
+      { property: "og:title", content: "Kanto Brain OS — Voice-First AI Console" },
       {
         property: "og:description",
         content:
-          "A minimalist push-to-talk interface for the Kanto Empire Brain OS with a living particle sphere and an on-demand asset canvas.",
+          "A minimalist push-to-talk console for the Kanto Empire with memory graph, ingestion bay, and credential vault.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -29,60 +31,32 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [state, setState] = useState<BrainState>("idle");
-  const [assetOpen, setAssetOpen] = useState(false);
+  const [panel, setPanel] = useState<PanelId | null>(null);
 
   const engage = useCallback(() => setState("listening"), []);
   const release = useCallback(() => {
-    setState((prev) => (prev === "listening" ? "processing" : prev));
+    setState((prev) => (prev === "listening" ? "speaking" : prev));
   }, []);
 
   useEffect(() => {
-    if (state !== "processing") return;
+    if (state !== "speaking") return;
     const t = setTimeout(() => setState("idle"), 2600);
     return () => clearTimeout(t);
   }, [state]);
 
   return (
-    <main className="relative flex min-h-screen flex-col overflow-hidden bg-kanto-cream text-kanto-black">
-      <header className="relative z-10 flex items-center justify-between px-6 py-6">
-        <span className="w-[140px]" />
-        <h1 className="font-serif text-lg italic tracking-wide">Kanto Brain OS</h1>
-        <div className="flex w-[140px] justify-end">
-          <button
-            type="button"
-            onClick={() => setAssetOpen(true)}
-            className="whitespace-nowrap rounded-[8px] border border-kanto-line bg-kanto-white/60 px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:bg-kanto-white hover:text-kanto-black"
-          >
-            Test Asset Render
-          </button>
-        </div>
-      </header>
+    <main className="flex min-h-screen flex-col overflow-hidden bg-kanto-cream text-kanto-black">
+      <KantoHeader onOpen={setPanel} />
 
-      <div className="relative z-10 flex flex-1 items-center justify-center">
+      <div className="flex flex-1 items-center justify-center">
         <ParticleSphere state={state} />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center gap-3 pb-16">
-        <motion.p
-          key={state}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground"
-        >
-          {state === "listening"
-            ? "Receiving"
-            : state === "processing"
-              ? "Processing"
-              : "Standby"}
-        </motion.p>
-        <PushToTalkButton
-          active={state === "listening"}
-          onEngage={engage}
-          onRelease={release}
-        />
-      </div>
+      <VoiceControls state={state} onEngage={engage} onRelease={release} />
 
-      <AssetCanvas open={assetOpen} onClose={() => setAssetOpen(false)} />
+      <NeuralMemoryDashboard open={panel === "memory"} onClose={() => setPanel(null)} />
+      <DataIngestionDropzone open={panel === "data"} onClose={() => setPanel(null)} />
+      <ApiControlPanel open={panel === "api"} onClose={() => setPanel(null)} />
     </main>
   );
 }
