@@ -68,7 +68,7 @@ export function ParticleSphere({ state }: { state: BrainState }) {
       const sinX = Math.sin(tilt);
 
       for (let i = 0; i < points.length; i++) {
-        const p = points[i];
+        const p = points[i]!;
 
         let wobble = 0;
         if (s === "idle") {
